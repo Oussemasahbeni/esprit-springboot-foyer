@@ -1,6 +1,7 @@
 package com.esprit.foyer.controller;
 
 import com.esprit.foyer.entity.Chambre;
+import com.esprit.foyer.entity.Foyer;
 import com.esprit.foyer.service.IChambreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,7 +16,7 @@ import java.util.List;
 public class ChambreController {
 
     private final IChambreService chambreService;
-    
+
     @PostMapping()
     public ResponseEntity<Chambre> addChambre(@RequestBody Chambre chambre) {
         return new ResponseEntity<>(chambreService.addChambre(chambre), HttpStatus.CREATED);
@@ -46,5 +47,21 @@ public class ChambreController {
     public ResponseEntity<List<Chambre>> getAllChambre() {
         return new ResponseEntity<>(chambreService.findAll(), HttpStatus.OK);
     }
+
+    @GetMapping("/etudiants-reservations")
+    public ResponseEntity<List<String>> getNomsSelonReservations() {
+        return new ResponseEntity<>(chambreService.nomsSelonReservations(), HttpStatus.OK);
+    }
+
+    @GetMapping("/count-chambres-reservations")
+    public ResponseEntity<Integer> getNombreChambresSelonReservationEtAnnee() {
+        return new ResponseEntity<>(chambreService.nombreChambresSelonReservationEtAnnee(), HttpStatus.OK);
+    }
+
+    @GetMapping("/foyer-by-numeros")
+    public ResponseEntity<Foyer> getFoyerByNumeroChambre(@RequestParam List<Long> numeroChambres) {
+        return new ResponseEntity<>(chambreService.getFoyerByNumeroChambre(numeroChambres), HttpStatus.OK);
+    }
+
 
 }

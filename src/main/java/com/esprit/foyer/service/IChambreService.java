@@ -1,6 +1,7 @@
 package com.esprit.foyer.service;
 
 import com.esprit.foyer.entity.Chambre;
+import com.esprit.foyer.entity.Foyer;
 
 import java.util.List;
 
@@ -17,4 +18,16 @@ public interface IChambreService {
     List<Chambre> findAll();
 
     List<Chambre> addBatchChambre(List<Chambre> chambres);
+
+    List<String> nomsSelonReservationsKeywords();
+
+    List<String> nomsSelonReservations();
+
+    Integer nombreChambresSelonReservationEtAnneeKeywords();
+
+    Integer nombreChambresSelonReservationEtAnnee();
+
+    Foyer getFoyerByNumeroChambreKeywords(List<Long> numeroChambres);
+
+    Foyer getFoyerByNumeroChambre(List<Long> numeroChambres);
 }

@@ -5,6 +5,8 @@ import com.esprit.foyer.repository.FoyerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -45,5 +47,11 @@ public class FoyerServiceImpl implements IFoyerService {
     @Override
     public List<Foyer> addBatchFoyer(List<Foyer> foyers) {
         return this.foyerRepository.saveAll(foyers);
+    }
+    
+
+    private LocalDate getCurrentAcademicYear() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return LocalDate.parse("2023-09-01", formatter);
     }
 }

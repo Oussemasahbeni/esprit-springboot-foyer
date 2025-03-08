@@ -1,10 +1,13 @@
 package com.esprit.foyer.service;
 
 import com.esprit.foyer.entity.Chambre;
+import com.esprit.foyer.entity.Foyer;
 import com.esprit.foyer.repository.ChambreRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -45,5 +48,44 @@ public class ChambreServiceImpl implements IChambreService {
     @Override
     public List<Chambre> addBatchChambre(List<Chambre> chambres) {
         return this.chambreRepository.saveAll(chambres);
+    }
+
+    @Override
+    public List<String> nomsSelonReservationsKeywords() {
+        LocalDate anneeUniversitaire = getCurrentAcademicYear();
+        return chambreRepository.findDistinctByReservations_EstValdieTrueAndReservations_AnneUniversitaire(anneeUniversitaire);
+    }
+
+    @Override
+    public List<String> nomsSelonReservations() {
+        LocalDate anneeUniversitaire = getCurrentAcademicYear();
+        return chambreRepository.nomsSelonReservations(anneeUniversitaire);
+    }
+
+    @Override
+    public Integer nombreChambresSelonReservationEtAnneeKeywords() {
+        LocalDate anneeUniversitaire = getCurrentAcademicYear();
+        return chambreRepository.countByReservations_EstValdieFalseAndReservations_AnneUniversitaireLessThan(anneeUniversitaire);
+    }
+
+    @Override
+    public Integer nombreChambresSelonReservationEtAnnee() {
+        LocalDate anneeUniversitaire = getCurrentAcademicYear();
+        return chambreRepository.nombreChambresSelonReservationEtAnnee(anneeUniversitaire);
+    }
+
+    @Override
+    public Foyer getFoyerByNumeroChambreKeywords(List<Long> numeroChambres) {
+        return chambreRepository.findDistinctByNumeroChambreIn(numeroChambres);
+    }
+
+    @Override
+    public Foyer getFoyerByNumeroChambre(List<Long> numeroChambres) {
+        return chambreRepository.getFoyerByNumeroChambre(numeroChambres);
+    }
+
+    private LocalDate getCurrentAcademicYear() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return LocalDate.parse("2023-09-01", formatter);
     }
 }
